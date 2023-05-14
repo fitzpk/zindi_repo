@@ -496,20 +496,6 @@ def cleanup(x_training, x_testing):
             x_training = x_training.drop([col],axis=1)
         if col in x_testing.columns:
             x_testing = x_testing.drop([col],axis=1)
-    
-    # some algos don't like certain characters in column names so remove them
-    for char in ['<', '>', '[' ,']' ,'+', '.', ':', ',']:
-        x_training.columns = x_training.columns.str.replace(char, '')
-        
-    for char in ['<', '>', '[' ,']' ,'+', '.', ':', ',']:
-        x_testing.columns = x_testing.columns.str.replace(char, '')
-
-    # Convert object types to categorical
-    # note: this is done for when using lightgbm default encoding, also helps with memory
-    cat_cols = list(x_training.select_dtypes('object'))
-    for c in cat_cols:
-      x_training[c] = x_training[c].astype('category')
-      x_testing[c] = x_testing[c].astype('category')
         
     return x_training, x_testing
 
@@ -523,7 +509,7 @@ X_train, X_test = date_extraction(train,test)
 X_train, X_test = knn_noneTag_imputation(X_train, X_test)
 X_train, X_test = ordinal_encoder(X_train, X_test)
 X_train, X_test = dummy_encoder(X_train, X_test)
-
+X_train, X_test = cleanup(X_train, X_test)
 
 # fit and predict
 catboost_model = CatBoostRegressor(verbose=False)
