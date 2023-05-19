@@ -31,8 +31,6 @@ from catboost import CatBoostRegressor, Pool, cv
 import optuna
 import patsy
 import re
-from category_encoders import CountEncoder, TargetEncoder, GLMMEncoder, JamesSteinEncoder, MEstimateEncoder, LeaveOneOutEncoder, CatBoostEncoder, WOEEncoder, HelmertEncoder, SumEncoder
-
 import shap
 
 # -------------------------------------
